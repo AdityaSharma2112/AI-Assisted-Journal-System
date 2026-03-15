@@ -1,0 +1,20 @@
+services:
+
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    environment:
+      - MONGO_URL=mongodb://host.docker.internal:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.6.0
+      - GEMINI_API=AIzaSyBOX_AGMJPOU8asTrO9A2eVNTKzwTc-bwk
+      - UPSTASH_TOKEN=gQAAAAAAARvhAAIncDI0ZTE3MTA3OTU2MjE0ZTZmOTAyMDY5NGQ2YzQ4MTg4Y3AyNzI2NzM
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        VITE_API_URL: http://backend:8000
+    ports:
+      - "4173:4173"
+    depends_on:
+      - backend
